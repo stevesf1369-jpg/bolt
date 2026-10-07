@@ -13,8 +13,7 @@ module.exports = {
       params: {
         path: "app",
         message: [
-          "npm install",
-          "npm install wrangler@3.57.1"
+          "node -e \"const fs=require('fs'); const path=require('path'); const {execSync}=require('child_process'); const appDir=process.cwd(); const nodeModules=path.join(appDir,'node_modules'); const needsInstall=!fs.existsSync(nodeModules); const needsWrangler=!fs.existsSync(path.join(nodeModules,'wrangler')); if (needsInstall || needsWrangler) { const commands=[]; if (needsInstall) commands.push('npm install --prefer-offline --no-fund --no-audit --progress=false'); if (needsWrangler) commands.push('npm install wrangler@3.57.1 --prefer-offline --no-fund --no-audit --progress=false'); execSync(commands.join(' && '), { stdio: 'inherit' }); } else { console.log('Skipping npm install: dependencies are already present'); }\""
         ]
       }
     },
@@ -22,7 +21,7 @@ module.exports = {
       method: "shell.run",
       params: {
         venv: "env",
-        message: "uv pip install litellm[proxy]==1.57.4"
+        message: "uv pip install --disable-pip-version-check litellm[proxy]==1.57.4"
       }
     },
     {
