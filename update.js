@@ -20,7 +20,7 @@ module.exports = {
     method: "shell.run",
     params: {
       venv: "env",
-      message: "pip install litellm[proxy]==1.57.4"
+      message: "uv pip install litellm[proxy]==1.104.1"
     }
   }, {
     method: "fs.link",

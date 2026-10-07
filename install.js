@@ -12,17 +12,14 @@ module.exports = {
       method: "shell.run",
       params: {
         path: "app",
-        message: [
-          "npm install",
-          "npm install wrangler@3.57.1"
-        ]
+        message: "npm install"
       }
     },
     {
       method: "shell.run",
       params: {
         venv: "env",
-        message: "uv pip install litellm[proxy]==1.57.4"
+        message: "uv pip install litellm[proxy]==1.104.1"
       }
     },
     {
