@@ -82,6 +82,26 @@ a:active {
   margin: 20px 0;
   box-sizing: border-box;
 }
+.prompt {
+  padding: 18px;
+  border-radius: 5px;
+  background: #171717;
+  color: #f5f5f5;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  font-family: monospace;
+}
+.copy {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+@media (max-width: 700px) {
+  main { display: block; }
+  nav { width: 100%; height: auto; border-right: 0; border-bottom: 1px solid rgba(0,0,100,0.1); }
+  .canvas { padding: 24px; }
+  h1 { font-size: 38px; line-height: 40px; }
+}
 </style>
 </head>
 <body>
@@ -91,6 +111,7 @@ a:active {
       <a href='#ollama' class='tab-item'>Option 0. Local LLM (Ollama)</a>
       <a href='#github' class='tab-item'>Option 1. Use Free LLM API (Github)</a>
       <a href='#api' class='tab-item'>Option 2. Use Claude / OpenAI / Gemini / Groq / OpenRouter / Mistral</a>
+      <a href='#mini-app-mode' class='tab-item'>Frontend-only mini apps</a>
     </div>
   </nav>
   <div class='canvas'>
@@ -162,13 +183,32 @@ a:active {
         <div>Restart Bolt and select the LLM provider and get started!</div>
       </div>
     </div>
+    <div id='mini-app-mode' class='container'>
+      <h1>Frontend-only mini apps</h1>
+      <p>Use Bolt to create small, polished web apps that run entirely in the browser. Pick a model, open Bolt, and paste this brief to set the project direction.</p>
+      <div class='row'>
+        <h2>Build mode prompt</h2>
+        <div class='prompt' id='mini-app-prompt'>Build a polished, frontend-only mini web app. Keep the scope small and make the core interaction work end to end. Use the existing frontend stack and run entirely in the browser—no server, database, authentication, external API, or environment secrets. Persist user data locally when useful. Make it responsive, accessible, and cohesive, with thoughtful empty, loading, and success states. Avoid placeholder controls: every visible interaction should work. Start by briefly describing the app and its main interaction, then implement it and verify it runs.</div>
+        <button class='btn copy' id='copy-prompt' type='button'>Copy build prompt</button>
+        <div class='well' id='copy-status' aria-live='polite'></div>
+      </div>
+      <div class='row'>
+        <h2>Try a finished mini app</h2>
+        <div>Tempo is a private, browser-only focus timer with a tiny task list. Your tasks and sessions stay in this browser.</div>
+        <a class='btn' href='tempo.html?raw=true'>Open Tempo</a>
+      </div>
+    </div>
   </div>
 </main>
 <script>
-document.querySelector(".tab").addEventListener("click", (e) => {
-  let target
-  if (e.target.className === 'tab-item') {
-    
+document.querySelector("#copy-prompt").addEventListener("click", async () => {
+  const prompt = document.querySelector("#mini-app-prompt").textContent
+  const status = document.querySelector("#copy-status")
+  try {
+    await navigator.clipboard.writeText(prompt)
+    status.textContent = "Prompt copied. Paste it into Bolt to start your mini app."
+  } catch {
+    status.textContent = "Select and copy the prompt above, then paste it into Bolt."
   }
 })
 </script>

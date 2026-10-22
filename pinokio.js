@@ -2,10 +2,19 @@ const path = require('path')
 module.exports = {
   version: "3.4.0",
   title: "bolt.diy",
-  description: "Prompt, run, edit, and deploy full-stack web apps. https://github.com/stackblitz-labs/bolt.diy",
+  description: "Build frontend-only mini web apps with Bolt.diy. https://github.com/stackblitz-labs/bolt.diy",
   icon: "icon.png",
   menu: async (kernel, info) => {
     let installed = info.exists("app/node_modules")
+    let shortcuts = [{
+      icon: "fa-solid fa-stopwatch",
+      text: "Tempo · Mini App",
+      href: "tempo.html?raw=true",
+    }, {
+      icon: "fa-solid fa-wand-magic-sparkles",
+      text: "Frontend-only Build Mode",
+      href: "intro.html?raw=true#mini-app-mode",
+    }]
     let running = {
       install: info.running("install.js"),
       start: info.running("start.js"),
@@ -13,7 +22,7 @@ module.exports = {
       reset: info.running("reset.js")
     }
     if (running.install) {
-      return [{
+      return [...shortcuts, {
         default: true,
         icon: "fa-solid fa-plug",
         text: "Installing",
@@ -23,7 +32,7 @@ module.exports = {
       if (running.start) {
         let local = info.local("start.js")
         if (local && local.url) {
-          return [{
+          return [...shortcuts, {
             icon: "fa-solid fa-rocket",
             text: "Open Web UI",
             href: local.url,
@@ -35,7 +44,7 @@ module.exports = {
             href: "start.js",
           }]
         } else {
-          return [{
+          return [...shortcuts, {
             default: true,
             icon: 'fa-solid fa-terminal',
             text: "Terminal",
@@ -43,21 +52,21 @@ module.exports = {
           }]
         }
       } else if (running.update) {
-        return [{
+        return [...shortcuts, {
           default: true,
           icon: 'fa-solid fa-terminal',
           text: "Updating",
           href: "update.js",
         }]
       } else if (running.reset) {
-        return [{
+        return [...shortcuts, {
           default: true,
           icon: 'fa-solid fa-terminal',
           text: "Resetting",
           href: "reset.js",
         }]
       } else {
-        return [{
+        return [...shortcuts, {
           icon: "fa-solid fa-power-off",
           text: "Start",
           href: "start.js",
@@ -84,7 +93,7 @@ module.exports = {
         }]
       }
     } else {
-      return [{
+      return [...shortcuts, {
         default: true,
         icon: "fa-solid fa-plug",
         text: "Install",
